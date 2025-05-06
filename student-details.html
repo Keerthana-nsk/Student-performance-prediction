@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+    <body style="background-image: url('image/studentlogin1.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 100vh;"></body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: url('images/studentlogin1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #4A4A8A;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4A4A8A;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e9e9e9;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+        .search-container input {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .search-container button {
+            padding: 10px 15px;
+            background-color: #4A4A8A;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Student Details</h1>
+    </div>
+    
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by name or register number...">
+        <button onclick="searchStudents()">Search</button>
+    </div>
+    
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Student Name</th>
+                <th>Register Number</th>
+                <th>Email Address</th>
+                <th>Previous Year Mark (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>John Smith</td>
+                <td>REG2023001</td>
+                <td>john.smith@example.com</td>
+                <td>87.5</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Emma Johnson</td>
+                <td>REG2023002</td>
+                <td>emma.j@example.com</td>
+                <td>92.3</td>
+            </tr>
+            <!-- Add more student entries here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Sample data for 20 students
+        const students = [
+            {name: "John Smith", regNo: "REG2023001", email: "john.smith@example.com", marks: 87.5},
+            {name: "Emma Johnson", regNo: "REG2023002", email: "emma.j@example.com", marks: 92.3},
+            {name: "Michael Brown", regNo: "REG2023003", email: "michael.b@example.com", marks: 78.9},
+            {name: "Sophia Williams", regNo: "REG2023004", email: "sophia.w@example.com", marks: 85.2},
+            {name: "James Davis", regNo: "REG2023005", email: "james.d@example.com", marks: 76.8},
+            {name: "Olivia Miller", regNo: "REG2023006", email: "olivia.m@example.com", marks: 91.7},
+            {name: "Robert Wilson", regNo: "REG2023007", email: "robert.w@example.com", marks: 82.4},
+            {name: "Ava Moore", regNo: "REG2023008", email: "ava.m@example.com", marks: 88.9},
+            {name: "William Taylor", regNo: "REG2023009", email: "william.t@example.com", marks: 79.5},
+            {name: "Isabella Anderson", regNo: "REG2023010", email: "isabella.a@example.com", marks: 94.1},
+            {name: "David Thomas", regNo: "REG2023011", email: "david.t@example.com", marks: 81.3},
+            {name: "Mia Jackson", regNo: "REG2023012", email: "mia.j@example.com", marks: 86.7},
+            {name: "Joseph White", regNo: "REG2023013", email: "joseph.w@example.com", marks: 77.8},
+            {name: "Charlotte Harris", regNo: "REG2023014", email: "charlotte.h@example.com", marks: 90.2},
+            {name: "Daniel Martin", regNo: "REG2023015", email: "daniel.m@example.com", marks: 83.6},
+            {name: "Amelia Thompson", regNo: "REG2023016", email: "amelia.t@example.com", marks: 89.4},
+            {name: "Matthew Garcia", regNo: "REG2023017", email: "matthew.g@example.com", marks: 80.1},
+            {name: "Emily Martinez", regNo: "REG2023018", email: "emily.m@example.com", marks: 93.8},
+            {name: "Andrew Robinson", regNo: "REG2023019", email: "andrew.r@example.com", marks: 75.9},
+            {name: "Abigail Clark", regNo: "REG2023020", email: "abigail.c@example.com", marks: 84.7}
+        ];
+
+        // Function to populate the table
+        function populateTable(studentArray) {
+            const tableBody = document.querySelector("#studentTable tbody");
+            tableBody.innerHTML = "";
+            
+            studentArray.forEach((student, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${student.name}</td>
+                    <td>${student.regNo}</td>
+                    <td>${student.email}</td>
+                    <td>${student.marks}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Function to search students
+        function searchStudents() {
+            const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            const filteredStudents = students.filter(student => 
+                student.name.toLowerCase().includes(searchTerm) || 
+                student.regNo.toLowerCase().includes(searchTerm)
+            );
+            populateTable(filteredStudents);
+        }
+
+        // Initialize the table with all students
+        window.onload = function() {
+            populateTable(students);
+        };
+    </script>
+</body>
+</html>
